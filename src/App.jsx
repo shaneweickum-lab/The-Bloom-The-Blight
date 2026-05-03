@@ -369,7 +369,7 @@ export default function BloomBlight() {
   }, [state.phase]);
 
   const startGame = useCallback(() => {
-    setState({ ...initState(), phase: 'playing', waveStart: 0 });
+    setState({ ...initState(), phase: 'playing', waveStart: 60000 });
   }, []);
 
   const pickPlant = useCallback(type => {
@@ -410,6 +410,8 @@ export default function BloomBlight() {
 
   const waveLabel = betweenWaves
     ? `Wave ${waveIdx + 1} cleared!  Next in ${Math.max(0, Math.ceil((WAVE_BREAK - (gt - (breakStart ?? gt))) / 1000))}s…`
+    : state.waveStart !== null && gt < state.waveStart
+    ? `Wave 1 starts in ${Math.ceil((state.waveStart - gt) / 1000)}s — plant your defenses!`
     : state.waveStart !== null
     ? `Wave ${waveIdx + 1} / ${WAVES.length}`
     : '';
